@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<h2>Dashboard</h2>
+
+<p id="nama"></p>
+
+<button onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<script>
+
+let sales=JSON.parse(localStorage.getItem("sales"));
+
+if(!sales){
+
+location="index.html";
+
+}
+
+document.getElementById("nama").innerHTML=
+"Halo <b>"+sales.nama+"</b><br>Kode : "+sales.kode;
+
+function logout(){
+
+localStorage.removeItem("sales");
+
+location="index.html";
+
+}
+
+</script>
+
+</body>
+</html>
