@@ -1,46 +1,37 @@
 async function login(){
 
-    let kode=document.getElementById("kodeSales").value.trim();
+    let kode = document.getElementById("kodeSales").value.trim();
 
     if(kode==""){
-
-        document.getElementById("info").innerHTML="Kode Sales harus diisi";
-
+        document.getElementById("info").innerHTML="Masukkan Kode Sales";
         return;
-
     }
 
     document.getElementById("info").innerHTML="Sedang mengecek...";
 
-    const res=await fetch(API_URL+"?action=sales");
+    try{
 
-    const data=await res.json();
+        const response = await fetch(API_URL+"?action=login&kode="+encodeURIComponent(kode));
 
-    let ketemu=false;
+        const result = await response.json();
 
-    for(let i=0;i<data.length;i++){
+        if(result.status){
 
-        if(data[i].kode.toUpperCase()==kode.toUpperCase()){
+            localStorage.setItem("sales",JSON.stringify(result));
 
-            ketemu=true;
+            window.location.href="dashboard.html";
 
-            localStorage.setItem("sales",JSON.stringify(data[i]));
+        }else{
 
-            break;
+            document.getElementById("info").innerHTML=result.message;
 
         }
 
-    }
+    }catch(err){
 
-    if(ketemu){
+        document.getElementById("info").innerHTML="Tidak dapat terhubung ke server";
 
-        window.location="dashboard.html";
-
-    }
-
-    else{
-
-        document.getElementById("info").innerHTML="Kode Sales tidak ditemukan";
+        console.log(err);
 
     }
 
